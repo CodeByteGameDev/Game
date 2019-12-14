@@ -26,4 +26,17 @@ AC_SUBST([os])
 
 AC_CONFIG_FILES([Makefile])
 
+AC_CONFIG_COMMANDS([lclib-c++],[
+	mkdir -p lclib-c++
+	pushd lclib-c++
+	../$ac_top_srcdir/lclib-c++/configure --with-build-type=$build_type
+	popd
+])
+
+AC_CONFIG_COMMANDS([pipeworks],[
+	mkdir -p pipeworks
+	pushd pipeworks
+	../$ac_top_srcdir/pipeworks/configure --with-build-type=$build_type
+])
+
 AC_OUTPUT

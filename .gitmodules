@@ -1,0 +1,6 @@
+[submodule "pipeworks"]
+	path = pipeworks
+	url = ../../LightningCreations/libpipeworks-cxx.git
+[submodule "lclib-c++"]
+	path = lclib-c++
+	url = ../../LightningCreations/LCLib-CXX.git
