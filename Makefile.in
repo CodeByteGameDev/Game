@@ -56,9 +56,10 @@ pipeworks/%: SDL/all
 SDL/%:
 	+$(MAKE) -C SDL $*
 
-clean:
+clean: pipeworks/clean SDL/clean
 	rm -rf $(OUTPUT) $(OUTDIR)/
 
-distclean: clean
+
+distclean: clean pipeworks/distclean SDL/distclean
 	rm -f Makefile config.status config.log
 

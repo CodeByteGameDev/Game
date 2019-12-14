@@ -29,21 +29,21 @@ AC_CONFIG_FILES([Makefile])
 AC_CONFIG_COMMANDS([lclib-c++],[
 	mkdir -p lclib-c++
 	pushd lclib-c++
-	../$ac_top_srcdir/lclib-c++/configure --with-build-type=$build_type
+	../$ac_top_srcdir/lclib-c++/configure --with-build-type=$build_type  || exit 1
 	popd
 ])
 
 AC_CONFIG_COMMANDS([SDL],[
 	mkdir -p SDL
 	pushd SDL
-	../$ac_top_srcdir/SDL/configure
+	../$ac_top_srcdir/SDL/configure  || exit 1
 	popd
 ])
 
 AC_CONFIG_COMMANDS([pipeworks],[
 	mkdir -p pipeworks
 	pushd pipeworks
-	CPPFLAGS="$CPPFLAGS -I$abs_top_srcdir/SDL/include" LDFLAGS="$LDFLAGS -L$abs_top_builddir/SDL/.libs" ../$ac_top_srcdir/pipeworks/configure --with-build-type=$build_type
+	CPPFLAGS="$CPPFLAGS -I$abs_top_srcdir/SDL/include" LDFLAGS="$LDFLAGS -L$abs_top_builddir/SDL/.libs" ../$ac_top_srcdir/pipeworks/configure --with-build-type=$build_type  || exit 1
 	popd
 ])
 
