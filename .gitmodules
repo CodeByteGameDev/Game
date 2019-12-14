@@ -4,3 +4,6 @@
 [submodule "lclib-c++"]
 	path = lclib-c++
 	url = ../../LightningCreations/LCLib-CXX.git
+[submodule "SDL"]
+	path = SDL
+	url = https://github.com/SDL-mirror/SDL.git

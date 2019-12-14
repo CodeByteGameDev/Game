@@ -33,10 +33,20 @@ AC_CONFIG_COMMANDS([lclib-c++],[
 	popd
 ])
 
+AC_CONFIG_COMMANDS([SDL],[
+	mkdir -p SDL
+	pushd SDL
+	../$ac_top_srcdir/SDL/configure
+	popd
+])
+
 AC_CONFIG_COMMANDS([pipeworks],[
 	mkdir -p pipeworks
 	pushd pipeworks
-	../$ac_top_srcdir/pipeworks/configure --with-build-type=$build_type
+	CPPFLAGS="$CPPFLAGS -I$abs_top_srcdir/SDL/include" LDFLAGS="$LDFLAGS -L$abs_top_builddir/SDL/.libs" ../$ac_top_srcdir/pipeworks/configure --with-build-type=$build_type
+	popd
 ])
+
+
 
 AC_OUTPUT

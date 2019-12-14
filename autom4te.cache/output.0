@@ -3118,6 +3118,17 @@ os=${target_os}
 ac_config_files="$ac_config_files Makefile"
 
 
+ac_config_commands="$ac_config_commands lclib-c++"
+
+
+ac_config_commands="$ac_config_commands SDL"
+
+
+ac_config_commands="$ac_config_commands pipeworks"
+
+
+
+
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -3683,6 +3694,7 @@ esac
 cat >>$CONFIG_STATUS <<_ACEOF || ac_write_fail=1
 # Files that config.status was made for.
 config_files="$ac_config_files"
+config_commands="$ac_config_commands"
 
 _ACEOF
 
@@ -3706,6 +3718,9 @@ Usage: $0 [OPTION]... [TAG]...
 
 Configuration files:
 $config_files
+
+Configuration commands:
+$config_commands
 
 Report bugs to the package provider."
 
@@ -3825,6 +3840,9 @@ for ac_config_target in $ac_config_targets
 do
   case $ac_config_target in
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
+    "lclib-c++") CONFIG_COMMANDS="$CONFIG_COMMANDS lclib-c++" ;;
+    "SDL") CONFIG_COMMANDS="$CONFIG_COMMANDS SDL" ;;
+    "pipeworks") CONFIG_COMMANDS="$CONFIG_COMMANDS pipeworks" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
@@ -3837,6 +3855,7 @@ done
 # bizarre bug on SunOS 4.1.3.
 if $ac_need_defaults; then
   test "${CONFIG_FILES+set}" = set || CONFIG_FILES=$config_files
+  test "${CONFIG_COMMANDS+set}" = set || CONFIG_COMMANDS=$config_commands
 fi
 
 # Have a temporary directory for convenience.  Make it in the build tree
@@ -4025,7 +4044,7 @@ cat >>$CONFIG_STATUS <<\_ACEOF || ac_write_fail=1
 fi # test -n "$CONFIG_FILES"
 
 
-eval set X "  :F $CONFIG_FILES      "
+eval set X "  :F $CONFIG_FILES      :C $CONFIG_COMMANDS"
 shift
 for ac_tag
 do
@@ -4240,9 +4259,33 @@ which seems to be undefined.  Please make sure it is defined" >&2;}
  ;;
   
   
-  
+  :C)  { $as_echo "$as_me:${as_lineno-$LINENO}: executing $ac_file commands" >&5
+$as_echo "$as_me: executing $ac_file commands" >&6;}
+ ;;
   esac
 
+
+  case $ac_file$ac_mode in
+    "lclib-c++":C) 
+	mkdir -p lclib-c++
+	pushd lclib-c++
+	../$ac_top_srcdir/lclib-c++/configure --with-build-type=$build_type
+	popd
+ ;;
+    "SDL":C) 
+	mkdir -p SDL
+	pushd SDL
+	../$ac_top_srcdir/SDL/configure
+	popd
+ ;;
+    "pipeworks":C) 
+	mkdir -p pipeworks
+	pushd pipeworks
+	CPPFLAGS="$CPPFLAGS -I$abs_top_srcdir/SDL/include" LDFLAGS="$LDFLAGS -L$abs_top_builddir/SDL/.libs" ../$ac_top_srcdir/pipeworks/configure --with-build-type=$build_type
+	popd
+ ;;
+
+  esac
 done # for ac_tag
 
 
