@@ -1,0 +1,59 @@
+
+CC = @CC@
+CXX = @CXX@
+CPPFLAGS = @CPPFLAGS@
+CFLAGS = @CFLAGS@
+CXXFLAGS = @CXXFLAGS@
+LDFLAGS = @LDFLAGS@
+INSTALL = @INSTALL@
+
+SRCDIR = @srcdir@
+BUILDDIR = @builddir@
+OUTDIR = $(BUILDDIR)/out
+
+INCLUDES = $(SRCDIR)/include
+LIBDIRS =
+LIBRARIES = m
+
+CDIALECT = c11
+CXXDIALECT = c++17
+
+ALL_CPPFLAGS = -pthread $(foreach include,$(INCLUDES),-I$(include))
+ALL_CFLAGS = -std=$(CDIALECT) $(CFLAGS)
+ALL_CXXFLAGS = -std=$(CXXDIALECT) $(CXXFLAGS)
+ALL_LDFLAGS = -pthread $(foreach libdir,$(LIBDIRS),-L$(libdir)) $(LDFLAGS)
+
+prefix = @prefix@
+
+OUTPUT = game@EXEEXT@ #game on unix, game.exe on windows.
+OBJECTS = $(OUTDIR)/Main.o
+
+all: $(OUTPUT)
+
+$(OUTPUT): $(OBJECTS) | Makefile
+	$(CXX) $(ALL_LDFLAGS) -o $@ $^ $(foreach library,$(LIBRARIES),-l$(library))
+
+Makefile: $(SRCDIR)/Makefile.in config.status
+	./config.status Makefile
+
+config.status: $(SRCDIR)/configure
+	./config.status --recheck
+
+$(SRCDIR)/configure: $(SRCDIR)/configure.ac
+	autoreconf $(SRCDIR)
+
+$(OUTDIR)/:
+	mkdir $(OUTDIR)
+
+$(OUTDIR)/%.o: $(SRCDIR)/src/%.cpp | $(OUTDIR)/
+	$(CXX) $(ALL_CPPFLAGS) $(ALL_CXXFLAGS) -c -o $@ $^
+
+$(OUTDIR)/%.o: $(SRCDIR)/src/%.c | $(OUTDIR)/
+	$(CC) $(ALL_CPPFLAGS) $(ALL_CFLAGS) -c -o $@ $^
+
+clean:
+	rm -rf $(OUTPUT) $(OUTDIR)/
+
+distclean: clean
+	rm -f Makefile config.status config.log
+
