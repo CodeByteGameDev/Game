@@ -43,7 +43,7 @@ AC_CONFIG_COMMANDS([SDL],[
 AC_CONFIG_COMMANDS([pipeworks],[
 	mkdir -p pipeworks
 	pushd pipeworks
-	CPPFLAGS="$CPPFLAGS -I$abs_top_srcdir/SDL/include" LDFLAGS="$LDFLAGS -L$abs_top_builddir/SDL/.libs" ../$ac_top_srcdir/pipeworks/configure --with-build-type=$build_type  || exit 1
+	CPPFLAGS="$CPPFLAGS -I../$ac_top_srcdir/SDL/include -I../SDL/include" CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS -L../SDL/build/.libs" ../$ac_top_srcdir/pipeworks/configure --with-build-type=$build_type  || exit 1
 	popd
 ])
 
