@@ -12,8 +12,8 @@ BUILDDIR = @builddir@
 OUTDIR = $(BUILDDIR)/out
 
 INCLUDES = $(SRCDIR)/include
-LIBDIRS = pipeworks SDL/build/.libs util/io util/shadenbt util/collect
-LIBRARIES = m pipeworks-cxx SDL io collect shadenbt
+LIBDIRS = .
+LIBRARIES = m pipeworks-cxx SDL io collect shadenbt crypto ssl
 
 CDIALECT = c11
 CXXDIALECT = c++17
@@ -24,7 +24,7 @@ ALL_CXXFLAGS = -std=$(CXXDIALECT) $(CXXFLAGS)
 ALL_LDFLAGS = -pthread $(foreach libdir,$(LIBDIRS),-L$(libdir)) $(LDFLAGS) 
 
 ifeq ($(findstring linux,@os@),linux)
-ALL_LDFLAGS += '-Wl,-rpath,$$ORIGIN/..' -Wl,-rpath-link,.
+ALL_LDFLAGS += -Wl,-rpath,'$$ORIGIN' -Wl,-rpath-link,. -Wl,-z,origin
 DLLEXT = .so
 LIBSEARCH = "lib*.so*"
 LIBDIR = .
