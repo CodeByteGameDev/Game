@@ -12,8 +12,8 @@ BUILDDIR = @builddir@
 OUTDIR = $(BUILDDIR)/out
 
 INCLUDES = $(SRCDIR)/include
-LIBDIRS =
-LIBRARIES = m
+LIBDIRS = pipeworks SDL/build/.libs util/io util/shadenbt util/collect
+LIBRARIES = m pipeworks-cxx SDL io collect shadenbt
 
 CDIALECT = c11
 CXXDIALECT = c++17
@@ -21,23 +21,41 @@ CXXDIALECT = c++17
 ALL_CPPFLAGS = -pthread $(foreach include,$(INCLUDES),-I$(include))
 ALL_CFLAGS = -std=$(CDIALECT) $(CFLAGS)
 ALL_CXXFLAGS = -std=$(CXXDIALECT) $(CXXFLAGS)
-ALL_LDFLAGS = -pthread $(foreach libdir,$(LIBDIRS),-L$(libdir)) $(LDFLAGS)
+ALL_LDFLAGS = -pthread $(foreach libdir,$(LIBDIRS),-L$(libdir)) $(LDFLAGS) 
+
+ifeq ($(findstring linux,@os@),linux)
+ALL_LDFLAGS += '-Wl,-rpath,$$ORIGIN/..' -Wl,-rpath-link,.
+DLLEXT = .so
+LIBSEARCH = "lib*.so*"
+LIBDIR = .
+PRUNE =
+else
+# TODO, add OSX Behavior
+DLLEXT = .dll
+LIBSEARCH = "*.dll"
+LIBDIR = .
+PRUNE = 
+endif
 
 prefix = @prefix@
 
 OUTPUT = game@EXEEXT@ #game on unix, game.exe on windows.
 OBJECTS = $(OUTDIR)/Main.o
 
-all: $(OUTPUT)
+all: $(OUTPUT) 
 
-$(OUTPUT): $(OBJECTS) | Makefile pipeworks/all SDL/all
-	$(CXX) $(ALL_LDFLAGS) -o $@ $^ $(foreach library,$(LIBRARIES),-l$(library))
+$(OUTPUT): $(OBJECTS) Makefile pipeworks/all SDL/all util/all libs
+	$(CXX) $(ALL_LDFLAGS) -o $@ $(OBJECTS) $(foreach library,$(LIBRARIES),-l$(library))
 
 Makefile: $(SRCDIR)/Makefile.in config.status
 	./config.status Makefile
 
 config.status: $(SRCDIR)/configure
 	./config.status --recheck
+
+libs: pipeworks/all SDL/all util/all openssl/all
+	mkdir -p $(LIBDIR)
+	find ./* $(PRUNE) -name $(LIBSEARCH) -exec cp {} $(LIBDIR) \;
 
 
 $(OUTDIR)/:
@@ -53,8 +71,14 @@ pipeworks/%: SDL/all
 	+$(MAKE) -C pipeworks $*
 
 
+openssl/all:
+	+$(MAKE) -C openssl $*
+
 SDL/%:
 	+$(MAKE) -C SDL $*
+
+util/%: openssl/all
+	+$(MAKE) -C util $*
 
 clean: pipeworks/clean SDL/clean
 	rm -rf $(OUTPUT) $(OUTDIR)/

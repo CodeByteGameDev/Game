@@ -3115,16 +3115,16 @@ shell=/bin/bash
 os=${target_os}
 
 
-ac_config_files="$ac_config_files Makefile"
-
-
-ac_config_commands="$ac_config_commands lclib-c++"
+ac_config_files="$ac_config_files Makefile util/Makefile util/io/Makefile util/net/Makefile util/collect/Makefile util/shadenbt/Makefile"
 
 
 ac_config_commands="$ac_config_commands SDL"
 
 
 ac_config_commands="$ac_config_commands pipeworks"
+
+
+ac_config_commands="$ac_config_commands openssl"
 
 
 
@@ -3840,9 +3840,14 @@ for ac_config_target in $ac_config_targets
 do
   case $ac_config_target in
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
-    "lclib-c++") CONFIG_COMMANDS="$CONFIG_COMMANDS lclib-c++" ;;
+    "util/Makefile") CONFIG_FILES="$CONFIG_FILES util/Makefile" ;;
+    "util/io/Makefile") CONFIG_FILES="$CONFIG_FILES util/io/Makefile" ;;
+    "util/net/Makefile") CONFIG_FILES="$CONFIG_FILES util/net/Makefile" ;;
+    "util/collect/Makefile") CONFIG_FILES="$CONFIG_FILES util/collect/Makefile" ;;
+    "util/shadenbt/Makefile") CONFIG_FILES="$CONFIG_FILES util/shadenbt/Makefile" ;;
     "SDL") CONFIG_COMMANDS="$CONFIG_COMMANDS SDL" ;;
     "pipeworks") CONFIG_COMMANDS="$CONFIG_COMMANDS pipeworks" ;;
+    "openssl") CONFIG_COMMANDS="$CONFIG_COMMANDS openssl" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
@@ -4266,12 +4271,6 @@ $as_echo "$as_me: executing $ac_file commands" >&6;}
 
 
   case $ac_file$ac_mode in
-    "lclib-c++":C)
-	mkdir -p lclib-c++
-	pushd lclib-c++
-	../$ac_top_srcdir/lclib-c++/configure --with-build-type=$build_type  || exit 1
-	popd
- ;;
     "SDL":C)
 	mkdir -p SDL
 	pushd SDL
@@ -4282,6 +4281,12 @@ $as_echo "$as_me: executing $ac_file commands" >&6;}
 	mkdir -p pipeworks
 	pushd pipeworks
 	CPPFLAGS="$CPPFLAGS -I../$ac_top_srcdir/SDL/include -I../SDL/include" CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS -L../SDL/build/.libs" ../$ac_top_srcdir/pipeworks/configure --with-build-type=$build_type  || exit 1
+	popd
+ ;;
+    "openssl":C)
+	mkdir -p openssl
+	pushd openssl
+	../$ac_top_srcdir/openssl/config || exit 1
 	popd
  ;;
 

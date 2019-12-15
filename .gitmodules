@@ -1,9 +1,12 @@
 [submodule "pipeworks"]
 	path = pipeworks
 	url = ../../LightningCreations/libpipeworks-cxx.git
-[submodule "lclib-c++"]
-	path = lclib-c++
-	url = ../../LightningCreations/LCLib-CXX.git
 [submodule "SDL"]
 	path = SDL
 	url = https://github.com/SDL-mirror/SDL.git
+[submodule "util"]
+	path = util
+	url = ../../chorman0773/C-Programming-Utilities.git
+[submodule "openssl"]
+	path = openssl
+	url = https://github.com/openssl/openssl.git

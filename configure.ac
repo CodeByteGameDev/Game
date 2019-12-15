@@ -24,14 +24,7 @@ AC_SUBST([shell])
 os=${target_os}
 AC_SUBST([os])
 
-AC_CONFIG_FILES([Makefile])
-
-AC_CONFIG_COMMANDS([lclib-c++],[
-	mkdir -p lclib-c++
-	pushd lclib-c++
-	../$ac_top_srcdir/lclib-c++/configure --with-build-type=$build_type  || exit 1
-	popd
-])
+AC_CONFIG_FILES([Makefile util/Makefile util/io/Makefile util/net/Makefile util/collect/Makefile util/shadenbt/Makefile])
 
 AC_CONFIG_COMMANDS([SDL],[
 	mkdir -p SDL
@@ -44,6 +37,13 @@ AC_CONFIG_COMMANDS([pipeworks],[
 	mkdir -p pipeworks
 	pushd pipeworks
 	CPPFLAGS="$CPPFLAGS -I../$ac_top_srcdir/SDL/include -I../SDL/include" CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS -L../SDL/build/.libs" ../$ac_top_srcdir/pipeworks/configure --with-build-type=$build_type  || exit 1
+	popd
+])
+
+AC_CONFIG_COMMANDS([openssl],[
+	mkdir -p openssl
+	pushd openssl
+	../$ac_top_srcdir/openssl/config || exit 1
 	popd
 ])
 
