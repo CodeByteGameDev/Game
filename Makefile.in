@@ -55,7 +55,7 @@ config.status: $(SRCDIR)/configure
 
 libs: pipeworks/all SDL/all util/all openssl/all
 	mkdir -p $(LIBDIR)
-	find ./* $(PRUNE) -name $(LIBSEARCH) -exec cp {} $(LIBDIR) \;
+	find ./*/ $(PRUNE) -name $(LIBSEARCH) -exec cp {} $(LIBDIR) \;
 
 
 $(OUTDIR)/:
