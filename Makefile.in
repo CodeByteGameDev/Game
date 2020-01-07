@@ -11,7 +11,7 @@ SRCDIR = @srcdir@
 BUILDDIR = @builddir@
 OUTDIR = $(BUILDDIR)/out
 
-INCLUDES = $(SRCDIR)/include
+INCLUDES = $(SRCDIR)/include $(SRCDIR)/pipeworks/include $(SRCDIR)/SDL/include $(BUILDDIR)/SDL/include
 LIBDIRS = .
 LIBRARIES = m pipeworks-cxx SDL io collect shadenbt crypto ssl
 
