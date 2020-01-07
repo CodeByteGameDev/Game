@@ -1,6 +1,10 @@
-
 #include <iostream>
+#include <pw-engine.hpp>
 
-int main(int argc,const char** argv){
-    std::cout << "Hello World" << std::endl;
+using namespace std;
+using namespace pipeworks;
+
+int main(int argc, const char** argv) {
+    cout << "Starting Pipeworks..." << endl;
+    Engine *engine = new Engine();
 }
